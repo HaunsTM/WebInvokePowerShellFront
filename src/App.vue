@@ -18,12 +18,12 @@
         <md-list>
           <md-list-item>
             <md-icon>help</md-icon>
-            <span class="md-list-item-text">Help</span>
+            <span class="md-list-item-text"><router-link :to="{name: 'Instructions'}">Instructions</router-link></span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>arrow_forward</md-icon>
-            <span class="md-list-item-text">Select script</span>
+            <span class="md-list-item-text"><router-link :to="{name: 'WizardSelectPowerShellScript'}">Start</router-link></span>	          
           </md-list-item> 
         </md-list>
       </md-drawer>
