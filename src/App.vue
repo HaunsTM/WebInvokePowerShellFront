@@ -30,9 +30,7 @@
 
       <md-content>
           <article class="main-content">
-            <instructions></instructions>
-            <power-shell-wizard></power-shell-wizard>
-
+            <router-view></router-view>
           </article>
       </md-content>
 

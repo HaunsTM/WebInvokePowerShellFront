@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Instructions from '@/components/Instructions'
 import PowerShellWizard from '@/components/PowerShellWizard'
 import WizardSelectPowerShellScript from '@/components/WizardSelectPowerShellScript'
 import WizardProvideWPowerShellScriptParameters from '@/components/WizardProvideWPowerShellScriptParameters'
@@ -10,24 +11,32 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/wizard/powerShellWizard',
-      name: 'PowerShellWizard',
-      component: PowerShellWizard
+      path: '/',
+      name: 'Instructions',
+      component: Instructions
     },
     {
-      path: '/wizard/wizardSelectPowerShellScript',
-      name: 'WizardSelectPowerShellScript',
-      component: WizardSelectPowerShellScript
+      path: '/wizard',
+      
+      component: PowerShellWizard,
+      children: [
+        {          
+          path: 'wizardSelectPowerShellScript',
+          name: 'WizardSelectPowerShellScript',
+          component: WizardSelectPowerShellScript
+        },
+        {
+          path: 'wizardProvideWPowerShellScriptParameters',
+          name: 'WizardProvideWPowerShellScriptParameters',
+          component: WizardProvideWPowerShellScriptParameters
+        },
+        {
+          path: 'wizardConfirmRun',
+          name: 'WizardConfirmRun',
+          component: WizardConfirmRun
+        }
+      ]
     },
-    {
-      path: '/wizard/wizardProvideWPowerShellScriptParameters',
-      name: 'WizardProvideWPowerShellScriptParameters',
-      component: WizardProvideWPowerShellScriptParameters
-    },
-    {
-      path: '/wizard/wizardConfirmRun',
-      name: 'WizardConfirmRun',
-      component: WizardConfirmRun
-    }
+
   ]
 })
