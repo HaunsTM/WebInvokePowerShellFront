@@ -12,6 +12,7 @@ export default {
     // fetch the data when the view is created and the data is
     // already being observed
     //debugger;
+    // http://localhost:8525/PowerShellService/GetNamesForRegisteredPowerShellScripts
   },
 }
 </script>

@@ -1,41 +1,41 @@
 <template>
 
-    <div class="page-container md-layout-column">
-      
-      <md-toolbar class="md-primary">
-        <md-button class="md-icon-button" @click="showNavigation = true">
-          <md-icon>menu</md-icon>
-        </md-button>
-        <span class="md-title">Tieto PowerShell runner</span>
+  <div class="page-container md-layout-column">
+    
+    <md-toolbar class="md-primary">
+      <md-button class="md-icon-button" @click="showNavigation = true">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <span class="md-title">Tieto PowerShell runner</span>
 
+    </md-toolbar>
+
+    <md-drawer :md-active.sync="showNavigation">
+      <md-toolbar class="md-transparent" md-elevation="0">
+        <span class="md-title">Tieto PowerShell runner</span>
       </md-toolbar>
 
-      <md-drawer :md-active.sync="showNavigation">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          <span class="md-title">Tieto PowerShell runner</span>
-        </md-toolbar>
+      <md-list>
+        <md-list-item>
+          <md-icon>help</md-icon>
+          <span class="md-list-item-text"><router-link :to="{name: 'Instructions'}">Instructions</router-link></span>
+        </md-list-item>
 
-        <md-list>
-          <md-list-item>
-            <md-icon>help</md-icon>
-            <span class="md-list-item-text"><router-link :to="{name: 'Instructions'}">Instructions</router-link></span>
-          </md-list-item>
+        <md-list-item>
+          <md-icon>arrow_forward</md-icon>
+          <span class="md-list-item-text"><router-link :to="{name: 'WizardSelectPowerShellScript'}">Start</router-link></span>	          
+        </md-list-item> 
+      </md-list>
+    </md-drawer>
 
-          <md-list-item>
-            <md-icon>arrow_forward</md-icon>
-            <span class="md-list-item-text"><router-link :to="{name: 'WizardSelectPowerShellScript'}">Start</router-link></span>	          
-          </md-list-item> 
-        </md-list>
-      </md-drawer>
-
-      <md-content>
-          <article class="main-content">
-            <router-view></router-view>
-          </article>
-      </md-content>
-
+    <md-content>
+        <article class="main-content">
+          <router-view></router-view>
+        </article>
+    </md-content>
     
   </div>
+
 </template>
 
 <script>
