@@ -70,8 +70,7 @@ export default {
   }
   .main-content {
     max-width: 800px;
-    width: 800px;    
-    border: 1px solid chartreuse
+    width: 800px; 
   }
   .md-drawer {
     width: 230px;
