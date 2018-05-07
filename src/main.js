@@ -11,6 +11,23 @@ import 'vue-material/dist/theme/default.css'
 Vue.config.productionTip = false
 Vue.use(VueMaterial)
 
+
+// This is a global mixin, it is applied to every vue instance
+Vue.mixin({
+  data: function() {
+    let CONSTANTS = {
+      get BASE_URL_WEBSERVICE_API() {
+        return "http:8525//";
+      }
+    }
+    return {
+      get CONSTANTS(){
+        return CONSTANTS;
+      }
+    };
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
