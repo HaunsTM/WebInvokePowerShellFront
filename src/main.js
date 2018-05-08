@@ -15,8 +15,18 @@ Vue.use(VueMaterial)
 // This is a global mixin, it is applied to every vue instance
 Vue.mixin({
   data: function() {
+    let tempConstant = {
+      BASE_URL_WEBSERVICE_API : "http://localhost:8525/PowerShellService/"
+    };
+    return {
+      get CONSTANTS(){
+        return Object.freeze(tempConstant);
+      }
+    }
+    /*
     let CONSTANTS = {
       get BASE_URL_WEBSERVICE_API() {
+        
         return "http:8525//";
       }
     }
@@ -25,6 +35,7 @@ Vue.mixin({
         return CONSTANTS;
       }
     };
+    */
   }
 })
 

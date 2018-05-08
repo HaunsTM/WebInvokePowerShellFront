@@ -7,6 +7,10 @@
 <script>
 export default {
   name: "WizardProvideWPowerShellScriptParameters"
+
+      //List<string> GetNamesForRegisteredPowerShellScripts();
+      // GetRegisteredPowerShellScriptPrototype?powerShellScriptName={powerShellScriptName}
+      // InvokePowerShellScript?powerShellScriptName={powerShellScriptName}
 }
 </script>
 
