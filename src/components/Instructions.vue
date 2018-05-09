@@ -6,7 +6,7 @@
 		
 		<section class="flex-container">
 			<md-button class="md-icon-button md-primary">
-      	<span class="md-list-item-text"><router-link :to="{name: 'WizardSelectPowerShellScript'}"><md-icon>arrow_forward</md-icon></router-link></span>	     
+      	<span class="md-list-item-text"><router-link :to="{name: 'Wizard'}"><md-icon>arrow_forward</md-icon></router-link></span>	     
 			</md-button>
 		</section>
 

@@ -3,7 +3,7 @@
     <h1>Header</h1>
     <section class="container row">
       <div class="container column">
-        <div v-for="registeredPowerShellScript in powerShellScripts_NameAndDescription" v-bind:key="registeredPowerShellScript.Name">
+        <div v-for="registeredPowerShellScript in registeredPowerShellScripts_NamesDescriptionsAndParameters" v-bind:key="registeredPowerShellScript.Name">
           <md-radio name="registered" v-model="selectedPowerShellScriptName" v-bind:value="registeredPowerShellScript.Name" >{{registeredPowerShellScript.Name}}</md-radio>
         </div>
       </div>
@@ -24,47 +24,41 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   name: "WizardProvideWPowerShellScriptParameters",
+
   data () {
       return {
-        loading: false,
-        powerShellScripts_NameAndDescription: [],
+        registeredPowerShellScripts_NamesDescriptionsAndParameters: [],
         selectedPowerShellScriptName: ""
     }
   },
-  
+
   created () {
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData()
   },
-  
+
   methods: {
-    
     fetchData () {
-        this.loading = true
-        const promises = [
-            axios.get(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'GetNamesForRegisteredPowerShellScripts')
-        ];
-         Promise.all(promises)
-        .then((response) => {
-            this.loading = false;
-            this.powerShellScripts_NameAndDescription = response[0].data;
-        })
-        .catch((error) => {
-            this.loading = false;
-            console.log(error);
-        });
+      this.registeredPowerShellScripts_NamesDescriptionsAndParameters = this.$session.get('registeredPowerShellScripts_NamesDescriptionsAndParameters');        
+      this.$session.get('selectedPowerShellScriptName');   
+    },
+
+    validate() {
+      let isValid = this.selectedPowerShellScriptName !== null && this.selectedPowerShellScriptName !== '';
+      this.$emit('on-validate', this.selectedPowerShellScriptName, isValid);
+      return isValid;
     }
   },
   
   computed: {
     selectedPowerShellScript: function() {
       if (this.selectedPowerShellScriptName !== '') {
-        return this.powerShellScripts_NameAndDescription.find( script => script.Name === this.selectedPowerShellScriptName)
+        this.$session.set('selectedPowerShellScriptName', this.selectedPowerShellScriptName);   
+        return this.registeredPowerShellScripts_NamesDescriptionsAndParameters.find( script => script.Name === this.selectedPowerShellScriptName);
       }
       return null;
     }

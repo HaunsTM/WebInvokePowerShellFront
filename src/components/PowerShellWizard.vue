@@ -6,21 +6,18 @@
                 
       <h2 slot="title">Run a PowerShell script file</h2>   
       <tab-content title="Select PowerShell script to run"
-                   route="/wizard/wizardSelectPowerShellScript"
+                   :before-change="() => validateStep('wizardSelectPowerShellScript')"
                    icon="ti-user">
+                   <wizard-select-power-shell-script ref="wizardSelectPowerShellScript" @on-validate="mergePartialModels"></wizard-select-power-shell-script>
       </tab-content>
       <tab-content title="Provide parameters"
-                   route="/wizard/wizardProvideWPowerShellScriptParameters"
                    icon="ti-settings">
+                   <wizard-provide-w-power-shell-script-parameters></wizard-provide-w-power-shell-script-parameters>
       </tab-content>
       <tab-content title="Confirm run"
-                   route="/wizard/wizardConfirmRun"
                    icon="ti-check">
+                   <wizard-confirm-run></wizard-confirm-run>
       </tab-content>
-       <transition name="fade" mode="out-in">
-        
-        <router-view></router-view>
-      </transition>
     </form-wizard>
  </div>
 </template>
@@ -29,18 +26,40 @@
 import {FormWizard, TabContent} from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
+import WizardSelectPowerShellScript from '@/components/WizardSelectPowerShellScript'
+import WizardProvideWPowerShellScriptParameters from '@/components/WizardProvideWPowerShellScriptParameters'
+import WizardConfirmRun from '@/components/WizardConfirmRun'
+
 export default {
   name: "PowerShellWizard",
   components: {
     FormWizard,
-    TabContent
+    TabContent,
+
+    WizardSelectPowerShellScript,
+    WizardProvideWPowerShellScriptParameters,
+    WizardConfirmRun    
+  },
+  data() {
+    return {
+      finalModel: {}
+    };
   },
   methods: {
-  onComplete: function(){
-      alert('Yay. Done!');
-   },
-   test: function(){
-   }
+    onComplete: function(){
+        alert('Yay. Done!');
+    },
+    validateStep(name) {
+      var refToValidate = this.$refs[name];
+      return refToValidate.validate();
+    },
+    mergePartialModels(model, isValid){
+      if(isValid){
+        debugger;
+      // merging each step model into the final model
+       this.finalModel = Object.assign({},this.finalModel, model)
+      }
+    }
   }
 }
 </script>
