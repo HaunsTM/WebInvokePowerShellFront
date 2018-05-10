@@ -1,12 +1,6 @@
 <template>
 
-  <div class="page-container md-layout-column">
-    
-    <section v-if="loading===true">
-      <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
-    </section>
-    
-    <section v-else>      
+  <div class="page-container md-layout-column">    
 
       <md-toolbar class="md-primary">
         <md-button class="md-icon-button" @click="showNavigation = true">
@@ -40,8 +34,6 @@
           </article>
       </md-content>
 
-    </section>
-    
   </div>
   
 </template>
@@ -51,8 +43,6 @@
 import Instructions from "./components/Instructions.vue";
 import PowerShellWizard from "./components/PowerShellWizard.vue";
 
-import axios from 'axios';
-
 export default {
   name: 'App',
   components: {
@@ -61,38 +51,11 @@ export default {
   },
   data: function data() {
     return {
-      loading: false,
       showNavigation: false,
       showSidepanel: false
     }
-  },
+  }  
   
-  created () {
-    // fetch the data when the view is created and the data is
-    // already being observed
-    this.fetchData()
-  },
-  
-  methods: {
-    
-    fetchData () {
-        this.loading = true
-        const promises = [
-            axios.get(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'GetRegisteredPowerShellScripts_NamesDescriptionsAndParameters')
-        ];
-         Promise.all(promises)
-        .then((response) => {
-            let registeredPowerShellScripts_NamesDescriptionsAndParameters = response[0].data;
-            this.$session.set('registeredPowerShellScripts_NamesDescriptionsAndParameters', registeredPowerShellScripts_NamesDescriptionsAndParameters);
-        
-            this.loading = false;
-        })
-        .catch((error) => {
-            this.loading = false;
-            console.log(error);
-        });
-    }
-  },
 }
 </script>
 

@@ -11,9 +11,6 @@ import 'vue-material/dist/theme/default.css'
 Vue.config.productionTip = false
 Vue.use(VueMaterial)
 
-import VueSession from 'vue-session'
-Vue.use(VueSession)
-
 // This is a global mixin, it is applied to every vue instance
 Vue.mixin({
   data: function() {
