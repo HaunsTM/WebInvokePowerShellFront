@@ -136,12 +136,33 @@ export default {
         .catch((error) => {
             this.loading = false;
             console.log(error);
-        });
+        })
     },
     onComplete: function(){
     },
     runScript: function() {
-      console.log(this.finalModel)
+      let powerShellScriptName = this.finalModel.Name;
+      //string args
+      console.log(this.finalModel);
+
+      this.loading = true
+        const promises = [
+            axios.get(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'InvokePowerShellScript')
+        ];
+         Promise.all(promises)
+        .then((response) => {
+            this.registeredPowerShellScripts_NamesDescriptionsAndParameters = response[0].data;
+            this.loading = false;
+        })
+        .catch((error) => {
+            this.loading = false;
+            console.log(error);
+        })
+
+
+
+
+      debugger;
     },
     validateStep(name) {
       var refToValidate = this.$refs[name];
@@ -155,6 +176,7 @@ export default {
     },
     mergeSelectedPowerShellScriptsParamtetersToFinalModel(parameters, isValid){
       if(isValid){
+        debugger;
         // merging each step model into the final model
         this.finalModel = Object.assign({},this.finalModel, parameters)
       }
