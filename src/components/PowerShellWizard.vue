@@ -10,36 +10,81 @@
                   shape="circle"
                   color="#009688">
                   
-        <h2 slot="title">Run a PowerShell script file</h2>   
-        <tab-content title="Select PowerShell script to run"
-                    :before-change="() => validateStep('wizardSelectPowerShellScript')"
-                    icon="ti-user">
-                    <wizard-select-power-shell-script 
-                      v-bind:power-shell-scripts-names-descriptions-and-parameters="registeredPowerShellScripts_NamesDescriptionsAndParameters"
-                      ref="wizardSelectPowerShellScript" 
-                      @on-validate="mergeSelectedPowerShellScriptToFinalModel">
-                    </wizard-select-power-shell-script>
+        <div class="md-display-1" slot="title">Run a PowerShell script file</div>   
+
+        <tab-content 
+          title="Select PowerShell script to run"
+          :before-change="() => validateStep('wizardSelectPowerShellScript')"
+          icon="ti-user">
+          <wizard-select-power-shell-script 
+            v-bind:power-shell-scripts-names-descriptions-and-parameters="registeredPowerShellScripts_NamesDescriptionsAndParameters"
+            ref="wizardSelectPowerShellScript" 
+            @on-validate="mergeSelectedPowerShellScriptToFinalModel">
+          </wizard-select-power-shell-script>
         </tab-content>
+
         <tab-content title="Provide parameters and run"
-                    :before-change="() => validateStep('wizardProvidePowerShellScriptParameters')"
-                    icon="ti-settings">
-                    <wizard-provide-power-shell-script-parameters
-                      v-bind:power-shell-script = "finalModel"
-                      ref="wizardProvidePowerShellScriptParameters" 
-                      @on-validate="mergeSelectedPowerShellScriptsParamtetersToFinalModel">
+          :before-change="() => validateStep('wizardProvidePowerShellScriptParameters')"
+          icon="ti-settings">
 
-                    </wizard-provide-power-shell-script-parameters>
+          <wizard-provide-power-shell-script-parameters
+            v-bind:power-shell-script = "finalModel"
+            ref="wizardProvidePowerShellScriptParameters" 
+            @on-validate="mergeSelectedPowerShellScriptsParamtetersToFinalModel">
+          </wizard-provide-power-shell-script-parameters>
         </tab-content>
-        <tab-content title="Result"
-                    icon="ti-check">
-                    <wizard-result                 
-                      v-bind:power-shell-script = "finalModel">
-                      </wizard-result>
+
+        <tab-content 
+          title="Result"
+          icon="ti-check">
+          <wizard-result                 
+            v-bind:power-shell-script = "finalModel">
+          </wizard-result>
         </tab-content>
+
         <md-divider></md-divider>
-      </form-wizard>
-    </section>
 
+      <template slot="footer" slot-scope="props">
+
+        <div class=wizard-footer-left>
+           <wizard-button  v-if="props.activeTabIndex > 0 && !props.isLastStep"
+             @click.native="props.prevTab()"
+             :style="props.fillButtonStyle">
+              Previous
+            </wizard-button>
+        </div>
+
+        <div class="wizard-footer-right">
+
+          <!--run button -->
+          <wizard-button 
+            v-if="props.activeTabIndex == 1"
+            @click.native="runScript" 
+            class="wizard-footer-right" :style="props.fillButtonStyle">
+              Run
+          </wizard-button>
+
+          <!--back button -->
+          <wizard-button 
+            v-else-if="!props.isLastStep" 
+            @click.native="props.nextTab()" 
+            class="wizard-footer-right" :style="props.fillButtonStyle">
+              Next
+          </wizard-button>
+
+          <!--last button -->
+          <wizard-button 
+            v-else 
+            @click.native="alert('Done')" 
+            class="wizard-footer-right finish-button" 
+            :style="props.fillButtonStyle">{{props.isLastStep ? 'Done' : 'Next'}}
+          </wizard-button>
+        </div>
+      </template>
+        
+      </form-wizard>
+
+    </section>
   </div>
 </template>
 
@@ -47,7 +92,7 @@
 
 import axios from 'axios';
 
-import {FormWizard, TabContent} from 'vue-form-wizard'
+import {FormWizard, TabContent, WizardButton} from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 import WizardSelectPowerShellScript from '@/components/WizardSelectPowerShellScript'
@@ -59,6 +104,7 @@ export default {
   components: {
     FormWizard,
     TabContent,
+    WizardButton,
 
     WizardSelectPowerShellScript,
     WizardProvidePowerShellScriptParameters,
@@ -93,7 +139,9 @@ export default {
         });
     },
     onComplete: function(){
-        alert('Yay. Done!');
+    },
+    runScript: function() {
+      console.log(this.finalModel)
     },
     validateStep(name) {
       var refToValidate = this.$refs[name];

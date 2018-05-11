@@ -1,27 +1,26 @@
 <template>
   <article class="container column">
     <section class="container row content">
-      
-      <div class="container column width-40">
-
-        <div v-for="registeredPowerShellScript in powerShellScriptsNamesDescriptionsAndParameters" v-bind:key="registeredPowerShellScript.Name">
-          <md-radio name="registered" v-model="selectedPowerShellScriptName" v-bind:value="registeredPowerShellScript.Name" >{{registeredPowerShellScript.Name}}</md-radio>
-        </div>
-      </div>
 
       <div class="width-40">
         <div v-if="selectedPowerShellScript">       
           
-          <div class="md-title">{{selectedPowerShellScript.Name}}</div>
+          <div class="md-caption">{{selectedPowerShellScript.Name}}</div>
           <p>{{selectedPowerShellScript.Description}}</p>
         </div>
         <div v-else>
           <md-icon class="md-size-5x">devices_other</md-icon>
         </div>        
       </div>
+      
+      <div class="container column width-40">
+        <div class="md-caption">Select script</div>
+        <div v-for="registeredPowerShellScript in powerShellScriptsNamesDescriptionsAndParameters" v-bind:key="registeredPowerShellScript.Name">
+          <md-radio name="registered" v-model="selectedPowerShellScriptName" v-bind:value="registeredPowerShellScript.Name" >{{registeredPowerShellScript.Name}}</md-radio>
+        </div>
+      </div>
 
-    </section>
-    
+    </section>    
 
   </article>
 </template>

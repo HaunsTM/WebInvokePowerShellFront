@@ -2,16 +2,18 @@
   <article class="container column">
     
     <section class="container row content">
+      <div class="width-40">
+        <div class="md-caption">{{powerShellScript.Name}}</div>
+        <p>{{powerShellScript.Description}}</p>
+      </div>
       <div class="container column width-40">
+        
+        <div class="md-caption">Parameters</div>
         <md-field v-for="(parameter, index) in powerShellScript.Parameters" :key="index">
           <label>Parameter - {{index}}</label>
           <md-input v-model="parameter.Value"></md-input>
           <span class="md-helper-text">{{parameter.Description}}</span>
         </md-field>
-      </div>
-      <div class="width-40">
-        <div class="md-title">{{powerShellScript.Name}}</div>
-        <p>{{powerShellScript.Description}}</p>
       </div>
     </section>
 
@@ -102,6 +104,7 @@ export default {
   }
 .terminal {
   background-color: black;
+  margin-top: 2rem;
   color: white;
   font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
