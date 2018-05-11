@@ -38,7 +38,7 @@ export default {
     validate() {
       debugger;
       let isValid = true;
-      for (let paramValue of this.parameterValues) {
+      for (let param of this.parameterValues) {
         if (param.Value === "") {
           isValid = false;
           break;
