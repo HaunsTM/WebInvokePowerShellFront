@@ -20,20 +20,23 @@
                       @on-validate="mergeSelectedPowerShellScriptToFinalModel">
                     </wizard-select-power-shell-script>
         </tab-content>
-        <tab-content title="Provide parameters"
+        <tab-content title="Provide parameters and run"
+                    :before-change="() => validateStep('wizardProvidePowerShellScriptParameters')"
                     icon="ti-settings">
-                    <wizard-provide-w-power-shell-script-parameters
+                    <wizard-provide-power-shell-script-parameters
                       v-bind:power-shell-script = "finalModel"
+                      ref="wizardProvidePowerShellScriptParameters" 
                       @on-validate="mergeSelectedPowerShellScriptsParamtetersToFinalModel">
 
-                    </wizard-provide-w-power-shell-script-parameters>
+                    </wizard-provide-power-shell-script-parameters>
         </tab-content>
-        <tab-content title="Confirm run"
+        <tab-content title="Result"
                     icon="ti-check">
-                    <wizard-confirm-run                 
+                    <wizard-result                 
                       v-bind:power-shell-script = "finalModel">
-                      </wizard-confirm-run>
+                      </wizard-result>
         </tab-content>
+        <md-divider></md-divider>
       </form-wizard>
     </section>
 
@@ -48,8 +51,8 @@ import {FormWizard, TabContent} from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 import WizardSelectPowerShellScript from '@/components/WizardSelectPowerShellScript'
-import WizardProvideWPowerShellScriptParameters from '@/components/WizardProvideWPowerShellScriptParameters'
-import WizardConfirmRun from '@/components/WizardConfirmRun'
+import WizardProvidePowerShellScriptParameters from '@/components/WizardProvidePowerShellScriptParameters'
+import WizardResult from '@/components/WizardResult'
 
 export default {
   name: "PowerShellWizard",
@@ -58,8 +61,8 @@ export default {
     TabContent,
 
     WizardSelectPowerShellScript,
-    WizardProvideWPowerShellScriptParameters,
-    WizardConfirmRun    
+    WizardProvidePowerShellScriptParameters,
+    WizardResult    
   },
   data() {
     return {

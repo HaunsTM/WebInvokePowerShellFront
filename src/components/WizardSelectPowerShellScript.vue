@@ -1,23 +1,25 @@
 <template>
   <article class="container column">
-    <h1>Available scripts</h1>
-    <section class="container row">
+    <section class="container row content">
       
-      <div class="container column">
+      <div class="container column width-40">
+
         <div v-for="registeredPowerShellScript in powerShellScriptsNamesDescriptionsAndParameters" v-bind:key="registeredPowerShellScript.Name">
           <md-radio name="registered" v-model="selectedPowerShellScriptName" v-bind:value="registeredPowerShellScript.Name" >{{registeredPowerShellScript.Name}}</md-radio>
         </div>
       </div>
-      <div>
-        <div v-if="selectedPowerShellScript">
-          <h1>{{selectedPowerShellScript.Name}}</h1>
+
+      <div class="width-40">
+        <div v-if="selectedPowerShellScript">       
+          
+          <div class="md-title">{{selectedPowerShellScript.Name}}</div>
           <p>{{selectedPowerShellScript.Description}}</p>
         </div>
-        <div v-else>          
-          <h1>Please select script!</h1>
-        </div>
-        
+        <div v-else>
+          <md-icon class="md-size-5x">devices_other</md-icon>
+        </div>        
       </div>
+
     </section>
     
 
@@ -27,7 +29,7 @@
 <script>
 
 export default {
-  name: "WizardProvideWPowerShellScriptParameters",
+  name: "WizardProvidePowerShellScriptParameters",
   
   props: ['powerShellScriptsNamesDescriptionsAndParameters'],
 
@@ -59,6 +61,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .md-empty-state {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
   .container {
     display: flex;
   }
@@ -71,4 +77,14 @@ export default {
     flex-direction: row;
   }
 
+  .content {
+    padding-top: 2em;
+    justify-content: space-between;
+  }
+  .width-20 {
+    width: 20%;
+  }
+  .width-40 {
+    width: 40%;
+  }
 </style>

@@ -1,12 +1,11 @@
 <template>
   <article>
-    CONFIRM RUNaz sfdszafgd
   </article>
 </template>
 
 <script>
 export default {    
-  name: "WizardConfirmRun"
+  name: "WizardResult"
 }
 </script>
 
