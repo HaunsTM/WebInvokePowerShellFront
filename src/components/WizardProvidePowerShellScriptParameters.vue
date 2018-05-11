@@ -43,8 +43,8 @@ export default {
           break;
         }
       }
-      return isValid;
       this.$emit('on-validate', this.parameterValues, isValid);
+      return isValid;
     }
   },
   computed: {
