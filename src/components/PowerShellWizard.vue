@@ -56,20 +56,12 @@
 
         <div class="wizard-footer-right">
 
-          <!--run button -->
-          <wizard-button 
-            v-if="props.activeTabIndex == 1"
-            @click.native="runScript" 
-            class="wizard-footer-right" :style="props.fillButtonStyle">
-              Run
-          </wizard-button>
-
           <!--back button -->
           <wizard-button 
-            v-else-if="!props.isLastStep" 
+            v-if="!props.isLastStep" 
             @click.native="props.nextTab()" 
             class="wizard-footer-right" :style="props.fillButtonStyle">
-              Next
+              {{props.activeTabIndex == 1 ? 'Run' : 'Next'}}
           </wizard-button>
 
           <!--last button -->
@@ -139,30 +131,6 @@ export default {
         })
     },
     onComplete: function(){
-    },
-    runScript: function() {
-      let powerShellScriptName = this.finalModel.Name;
-      //string args
-      console.log(this.finalModel);
-
-      this.loading = true
-        const promises = [
-            axios.get(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'InvokePowerShellScript')
-        ];
-         Promise.all(promises)
-        .then((response) => {
-            this.registeredPowerShellScripts_NamesDescriptionsAndParameters = response[0].data;
-            this.loading = false;
-        })
-        .catch((error) => {
-            this.loading = false;
-            console.log(error);
-        })
-
-
-
-
-      debugger;
     },
     validateStep(name) {
       var refToValidate = this.$refs[name];
