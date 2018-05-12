@@ -38,7 +38,8 @@
           title="Result"
           icon="ti-check">
           <wizard-result                 
-            v-bind:power-shell-script = "finalModel">
+            v-bind:power-shell-script = "finalModel"            
+            ref="wizardResult" >
           </wizard-result>
         </tab-content>
 
@@ -144,9 +145,10 @@ export default {
     },
     mergeSelectedPowerShellScriptsParamtetersToFinalModel(parameters, isValid){
       if(isValid){
-        debugger;
         // merging each step model into the final model
         this.finalModel = Object.assign({},this.finalModel, parameters)
+        
+        this.$refs.wizardResult.setValue("Hello Worlld");
       }
     }
   }

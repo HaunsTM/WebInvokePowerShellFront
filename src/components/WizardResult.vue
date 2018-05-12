@@ -1,11 +1,23 @@
 <template>
   <article>
+    {{value}}
   </article>
 </template>
 
 <script>
 export default {    
-  name: "WizardResult"
+  name: "WizardResult",
+  
+  data: function () {
+    return {
+      value: "0"
+    };
+  },
+  methods: {
+    setValue: function(value) {
+        this.value = value;
+    }
+  }
 }
 </script>
 
