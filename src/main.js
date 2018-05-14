@@ -15,7 +15,7 @@ Vue.use(VueMaterial)
 Vue.mixin({
   data: function() {
     let tempConstant = {
-      BASE_URL_WEBSERVICE_API : "http://localhost:8525/PowerShellService/"
+      BASE_URL_WEBSERVICE_API : "http://localhost:59034/PowerShellService.svc/"
     };
     return {
       get CONSTANTS(){

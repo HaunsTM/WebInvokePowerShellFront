@@ -38,7 +38,7 @@
           title="Result"
           icon="ti-check">
           <wizard-result                 
-            v-bind:power-shell-script = "finalModel"            
+            v-bind:power-shell-script = "finalModel"          
             ref="wizardResult" >
           </wizard-result>
         </tab-content>
@@ -70,7 +70,7 @@
             v-else 
             @click.native="alert('Done')" 
             class="wizard-footer-right finish-button" 
-            :style="props.fillButtonStyle">{{props.isLastStep ? 'Done' : 'Next'}}
+            :style="props.fillButtonStyle">Done
           </wizard-button>
         </div>
       </template>
@@ -147,8 +147,8 @@ export default {
       if(isValid){
         // merging each step model into the final model
         this.finalModel = Object.assign({},this.finalModel, parameters)
-        
-        this.$refs.wizardResult.setValue("Hello Worlld");
+         
+        this.$refs.wizardResult.invokeServersidePowerShellScript(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'InvokePowerShellScript');
       }
     }
   }
