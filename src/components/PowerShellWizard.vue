@@ -146,8 +146,7 @@ export default {
     mergeSelectedPowerShellScriptsParamtetersToFinalModel(parameters, isValid){
       if(isValid){
         // merging each step model into the final model
-        this.finalModel = Object.assign({},this.finalModel, parameters)
-         
+        this.finalModel.Parameters = parameters;
         this.$refs.wizardResult.invokeServersidePowerShellScript(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'InvokePowerShellScript');
       }
     }

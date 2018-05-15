@@ -10,7 +10,8 @@
         
         <div class="md-caption">Parameters</div>
         <md-field v-for="(parameter, index) in powerShellScript.Parameters" :key="index">
-          <label>Parameter - {{index}}</label>
+          
+          <label><b>{{parameter.Name}}</b></label>
           <md-input v-model="parameter.Value"></md-input>
           <span class="md-helper-text">{{parameter.Description}}</span>
         </md-field>
@@ -53,9 +54,11 @@ export default {
     scriptToRunWithParameters: function() {
       if (this.selectedPowerShellScriptName !== '') {
         let powerShellScriptFile = this.powerShellScript.Name + ".ps1";
-        let currentParametersSpaceSeparated = this.parameterValues.join(" ");
+        let currentParametersSpaceSeparated = this.parameterValues.map(
+          p => (p.UserProvidedValue ? " -" + p.Name + " " + p.UserProvidedValue : "")
+        ).join('');
 
-        return powerShellScriptFile + " " + currentParametersSpaceSeparated;
+        return (powerShellScriptFile + currentParametersSpaceSeparated).trim();
       }
     },
     parameterValues: function() {
@@ -63,11 +66,10 @@ export default {
       if (this.powerShellScript.Parameters) {
         
         this.powerShellScript.Parameters.forEach(parameter => {
-          if (parameter.Value) {
-            paramValueArray.push(parameter.Value);
-          } else {
-            paramValueArray.push("");
-          }
+          paramValueArray.push({
+            "UserProvidedValue": parameter.Value,
+            "Name": parameter.Name
+          });
         });
       }
       return paramValueArray;

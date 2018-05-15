@@ -48,8 +48,10 @@ export default {
   
   computed: {
     selectedPowerShellScript: function() {
-      if (this.selectedPowerShellScriptName !== '') { 
-        return this.powerShellScriptsNamesDescriptionsAndParameters.find( script => script.Name === this.selectedPowerShellScriptName);
+      if (this.selectedPowerShellScriptName !== '') {
+        let script = this.powerShellScriptsNamesDescriptionsAndParameters.find( script => script.Name === this.selectedPowerShellScriptName);
+
+        return script;
       }
       return null;
     }
