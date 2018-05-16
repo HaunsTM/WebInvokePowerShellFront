@@ -18,9 +18,9 @@
         
       <pre>
         PowerShell
-        PS [SERVER]:\PowerShell> {{scriptToRunWithParameters}}<span class="blinking-cursor">_</span>
+        PS [SERVER]:\PowerShell> {{scriptToRunWithParameters}}
+        {{result}}<span class="blinking-cursor">_</span>
       </pre>
-        {{result}}
       </section>
       <section v-if="loading===false && error!==''">
         
@@ -59,33 +59,26 @@ export default {
       var that = this;
       that.resetMemberVariables;
       
-    
-      const payload1 = {
-        Name: that.powerShellScript.Name,
-        Parameters: that.powerShellScript.Parameters
-      };
       const payload = {
         Name: that.powerShellScript.Name,
         Parameters: this.parameterValues
       };
 
       var timeOut = new Promise(function(resolve, reject) {
-        setTimeout(resolve, 2000*1);
+        setTimeout(resolve, 1000*3);
       });
 
       const promises = [
           axios.post(webServiceEndpoint, this.powerShellScript),
           timeOut
       ];
-      
       Promise.all(promises)
-      .then((response) => {
-        debugger;
-        that.result = response[0].data;
+      .then(function (response)  {
+        that.result = response[0].data.Output;
+        
         that.loading = false;
       })
       .catch((error) => {
-        debugger;
         that.error = error;
         that.loading = false;
       });
