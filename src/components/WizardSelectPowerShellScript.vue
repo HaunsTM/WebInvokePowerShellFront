@@ -3,7 +3,7 @@
     <section class="container row content">
 
       <div class="width-40">
-        <div v-if="selectedPowerShellScript">       
+        <div v-if="selectedPowerShellScript">
           
           <div class="md-caption">{{selectedPowerShellScript.Name}}</div>
           <p>{{selectedPowerShellScript.Description}}</p>

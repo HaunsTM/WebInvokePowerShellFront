@@ -1,10 +1,6 @@
 <template>
 
   <div>
-    
-    <section v-if="loading===true">
-      <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
-    </section>
     <section v-if="loading===false">
       <form-wizard @on-complete="onComplete"
                   shape="circle"
@@ -29,7 +25,7 @@
 
           <wizard-provide-power-shell-script-parameters
             v-bind:power-shell-script = "finalModel"
-            ref="wizardProvidePowerShellScriptParameters" 
+            ref="wizardProvidePowerShellScriptParameters"
             @on-validate="mergeSelectedPowerShellScriptsParamtetersToFinalModel">
           </wizard-provide-power-shell-script-parameters>
         </tab-content>
@@ -38,7 +34,7 @@
           title="Result"
           icon="ti-check">
           <wizard-result                 
-            v-bind:power-shell-script = "finalModel"          
+            v-bind:power-shell-script = "finalModel"
             ref="wizardResult" >
           </wizard-result>
         </tab-content>
@@ -85,12 +81,13 @@
 
 import axios from 'axios';
 
-import {FormWizard, TabContent, WizardButton} from 'vue-form-wizard'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import {FormWizard, TabContent, WizardButton} from 'vue-form-wizard';
+import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 
-import WizardSelectPowerShellScript from '@/components/WizardSelectPowerShellScript'
-import WizardProvidePowerShellScriptParameters from '@/components/WizardProvidePowerShellScriptParameters'
-import WizardResult from '@/components/WizardResult'
+import WizardSelectPowerShellScript from '@/components/WizardSelectPowerShellScript';
+import WizardProvidePowerShellScriptParameters from '@/components/WizardProvidePowerShellScriptParameters';
+import WizardResult from '@/components/WizardResult';
+import { EventBus } from './event-bus.js';
 
 export default {
   name: "PowerShellWizard",
@@ -107,7 +104,8 @@ export default {
     return {
       loading: false,
       registeredPowerShellScripts_NamesDescriptionsAndParameters: {},
-      finalModel: {}
+      finalModel: {},
+      preparedScript: ""
     };
   },
   created () {
@@ -116,22 +114,23 @@ export default {
     this.fetchData()
   },
   methods: {
-    fetchData () {
-        this.loading = true
+    fetchData () {      
+        
+        this.setLoadingState(true);
+        
         const promises = [
             axios.get(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'GetRegisteredPowerShellScripts_NamesDescriptionsAndParameters')
         ];
-         Promise.all(promises)
+        
+        Promise.all(promises)
         .then((response) => {
+            this.setLoadingState(false);
             this.registeredPowerShellScripts_NamesDescriptionsAndParameters = response[0].data;
-            this.loading = false;
         })
         .catch((error) => {
-            this.loading = false;
+            this.setLoadingState(false, error);
             console.log(error);
         })
-    },
-    onComplete: function(){
     },
     validateStep(name) {
       var refToValidate = this.$refs[name];
@@ -143,15 +142,29 @@ export default {
        this.finalModel = currentSelectedPowerShellScript;
       }
     },
-    mergeSelectedPowerShellScriptsParamtetersToFinalModel(parameters, isValid){
+    mergeSelectedPowerShellScriptsParamtetersToFinalModel(parameters, scriptToRunWithParameters, isValid){
       if(isValid){
         // merging each step model into the final model
         this.finalModel.Parameters = parameters;
+        this.finalModel.VisualScriptToRunWithParameters = scriptToRunWithParameters;
         this.$refs.wizardResult.invokeServersidePowerShellScript(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'InvokePowerShellScript');
       }
+    },
+    onComplete: function(){
+    },
+    reset: function() {
+      this.setLoadingState(false);
+      this.registeredPowerShellScripts_NamesDescriptionsAndParameters = {};
+      this.finalModel = {};
+
+      this.fetchData();
+    },
+    setLoadingState: function (loading, error) {
+      this.loading = loading;
+      let payLoad =  { "isLoading" : loading, "error" : error };
+      EventBus.$emit('loading', payLoad);
     }
-  }
-  
+  }  
 }
 </script>
 

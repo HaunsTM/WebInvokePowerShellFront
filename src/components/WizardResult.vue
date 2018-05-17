@@ -1,34 +1,12 @@
 <template>
   <article class="container column">
-    <section v-if="loading===true">
-      <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
-    </section>
     
-    <section v-if="loading===false && error!==''">
-      <md-empty-state 
-        class="md-accent" 
-        md-rounded md-icon="alarm_off" 
-        md-label="Error">
-      </md-empty-state>
-    </section>
-    
-
     <section class="container row terminal">
-      <section v-if="loading===false && error===''">
-        
-      <pre>
-        PowerShell
-        PS [SERVER]:\PowerShell> {{scriptToRunWithParameters}}
-        {{result}}<span class="blinking-cursor">_</span>
-      </pre>
-      </section>
-      <section v-if="loading===false && error!==''">
-        
-      <pre>
-        ---<span class="blinking-cursor">_</span>
-      </pre>
-        {{error}}
-      </section>
+      <p>PowerShell<br/>
+        PS [SERVER]:\PowerShell>{{powerShellScript.VisualScriptToRunWithParameters}}<span v-if="loading" class="blinking-cursor">_</span>
+        <span v-if="powerShellOutput!==''" class="powershell-output" ><br />{{powerShellOutput}}</span>
+        <span v-if="powerShellError!==''" class="powershell-error"><br />{{powerShellError}}</span>
+      </p>
     </section>
   </article>
 </template>
@@ -36,6 +14,7 @@
 <script>
 
 import axios from 'axios';
+import { EventBus } from './event-bus.js';
 
 export default {    
   name: "WizardResult",
@@ -44,27 +23,28 @@ export default {
   data: function () {
     return {
       loading: false,
-      error: "",
-      result: ""
+      powerShellError: "",
+      powerShellOutput: ""
     };
   },
   methods: {
     resetMemberVariables: function(){
       this.loading = false;
-      this.error = "";
-      this.result= "";
+      this.powerShellError = "";
+      this.powerShellOutput= "";
     },
     
     invokeServersidePowerShellScript: function(webServiceEndpoint) {
       var that = this;
-      that.resetMemberVariables;
       
+      that.setLoadingState(true);
       const payload = {
         Name: that.powerShellScript.Name,
         Parameters: this.parameterValues
       };
 
       var timeOut = new Promise(function(resolve, reject) {
+
         setTimeout(resolve, 1000*3);
       });
 
@@ -72,29 +52,25 @@ export default {
           axios.post(webServiceEndpoint, this.powerShellScript),
           timeOut
       ];
+
       Promise.all(promises)
       .then(function (response)  {
-        that.result = response[0].data.Output;
-        
-        that.loading = false;
+        that.setLoadingState(false);
+        that.powerShellOutput = response[0].data.Output;
+        that.powerShellError = response[0].data.Errors;
       })
-      .catch((error) => {
+      .catch((fatalError) => {
+        that.setLoadingState(false, fatalError);
         that.error = error;
-        that.loading = false;
       });
+    },
+    setLoadingState: function (loading, error) {      
+      this.loading = loading;
+      let payLoad =  { "isLoading" : loading, "error" : error };
+      EventBus.$emit('loading', payLoad);
     }
   },
-  computed: {    
-    scriptToRunWithParameters: function() {
-      if (this.selectedPowerShellScriptName !== '') {
-        let powerShellScriptFile = this.powerShellScript.Name + ".ps1";
-        let currentParametersSpaceSeparated = this.parameterValues.map(
-          p => (p.UserProvidedValue ? " -" + p.Name + " " + p.UserProvidedValue : "")
-        ).join('');
-
-        return (powerShellScriptFile + currentParametersSpaceSeparated).trim();
-      }
-    },
+  computed: {
     parameterValues: function() {
       let paramValueArray = [];
       if (this.powerShellScript.Parameters) {
@@ -141,12 +117,27 @@ export default {
 .terminal {
   background-color: black;
   margin-top: 2rem;
+  padding: 1rem;
   color: white;
   font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
-
+.powershell-output {
+  color: white;
+}
+.powershell-error {
+  color: #B00020;
+}
 .blinking-cursor {
   color: #2E3D48;
   animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: white;
+  }
 }
 </style>

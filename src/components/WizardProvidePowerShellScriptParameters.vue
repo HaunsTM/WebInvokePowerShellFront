@@ -19,12 +19,11 @@
     </section>
 
     <section class="container row terminal">
-      <pre>
-        PowerShell
-        PS [SERVER]:\PowerShell> {{scriptToRunWithParameters}}<span class="blinking-cursor">_</span>
-      </pre>
+      <p>PowerShell<br/>
+        PS [SERVER]:\PowerShell>{{scriptToRunWithParameters}}<span class="blinking-cursor">_</span>
+      </p>
     </section>
-    
+
   </article>
 </template>
 
@@ -46,7 +45,7 @@ export default {
           break;
         }
       }
-      this.$emit('on-validate', this.parameterValues, isValid);
+      this.$emit('on-validate', this.parameterValues, this.scriptToRunWithParameters, isValid);
       return isValid;
     }
   },
@@ -57,8 +56,9 @@ export default {
         let currentParametersSpaceSeparated = this.parameterValues.map(
           p => (p.UserProvidedValue ? " -" + p.Name + " " + p.UserProvidedValue : "")
         ).join('');
-
-        return (powerShellScriptFile + currentParametersSpaceSeparated).trim();
+        let preparedScript = (powerShellScriptFile + currentParametersSpaceSeparated).trim();
+        
+        return preparedScript;
       }
     },
     parameterValues: function() {
@@ -107,6 +107,7 @@ export default {
 .terminal {
   background-color: black;
   margin-top: 2rem;
+  padding: 1rem;
   color: white;
   font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
