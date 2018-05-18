@@ -6,14 +6,14 @@
         <md-button class="md-icon-button" @click="showNavigation = true">
           <md-icon>menu</md-icon>
         </md-button>
-        <span class="md-title">Tieto PowerShell runner</span>
+        <span class="md-title">PowerShell Script runner</span>
       </md-toolbar>
       <section v-if="loading===true">
         <md-progress-bar md-mode="indeterminate"></md-progress-bar>
       </section>
       <md-drawer :md-active.sync="showNavigation">
         <md-toolbar class="md-transparent" md-elevation="0">
-          <span class="md-title">Tieto PowerShell runner</span>
+          <span class="md-title">PowerShell Script runner</span>
         </md-toolbar>
 
         <md-list>
@@ -47,7 +47,7 @@
                   {{loadingError}}
                   <br/>
                   <br/>
-                  <i>(That probably means that the server connection has been lost or that the server is down. Please try later...)</i>
+                  <i>(That probably means that the server connection has been lost or that the server is down. Please try again later...)</i>
                 </md-card-content>
               </md-card>
 
@@ -107,7 +107,7 @@ export default {
   }
   .main-content {
     max-width: 800px;
-    width: 800px; 
+    width: 800px;
   }
   .md-drawer {
     width: 230px;

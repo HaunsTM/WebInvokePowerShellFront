@@ -1,7 +1,7 @@
 <template>
   <article class="container column">
-    <section class="container row content">
-
+    <section class="container row content ">
+<!--
       <div class="width-40">
         <div v-if="selectedPowerShellScript">
           
@@ -17,8 +17,27 @@
         <div class="md-caption">Select script</div>
         <div v-for="registeredPowerShellScript in powerShellScriptsNamesDescriptionsAndParameters" v-bind:key="registeredPowerShellScript.Name">
           <md-radio name="registered" v-model="selectedPowerShellScriptName" v-bind:value="registeredPowerShellScript.Name" >{{registeredPowerShellScript.Name}}</md-radio>
+          <md-divider></md-divider>
         </div>
       </div>
+-->
+
+      <md-list class="width-60 md-double-line"> 
+
+        <md-subheader>Select script</md-subheader>
+        <md-list-item v-for="registeredPowerShellScript in powerShellScriptsNamesDescriptionsAndParameters" v-bind:key="registeredPowerShellScript.Name">
+
+          <div class="md-list-item-text">
+            <span><md-radio name="registered" v-model="selectedPowerShellScriptName" v-bind:value="registeredPowerShellScript.Name" >{{registeredPowerShellScript.Name}}</md-radio></span>
+            <small>{{registeredPowerShellScript.Description}}</small>
+          <md-divider></md-divider>
+          </div>
+        </md-list-item>
+
+        
+      </md-list>
+
+
 
     </section>    
 
@@ -80,12 +99,9 @@ export default {
 
   .content {
     padding-top: 2em;
-    justify-content: space-between;
+    justify-content: center;
   }
-  .width-20 {
-    width: 20%;
-  }
-  .width-40 {
-    width: 40%;
+  .width-60 {
+    width: 60%;
   }
 </style>

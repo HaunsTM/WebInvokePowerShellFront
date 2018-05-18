@@ -2,9 +2,10 @@
 
   <div>
     <section v-if="loading===false">
-      <form-wizard @on-complete="onComplete"
+      <form-wizard
                   shape="circle"
-                  color="#009688">
+                  color="#009688"
+                  ref="wizard">
                   
         <div class="md-display-1" slot="title">Run a PowerShell script file</div>   
 
@@ -30,12 +31,13 @@
           </wizard-provide-power-shell-script-parameters>
         </tab-content>
 
-        <tab-content 
-          title="Result"
+        <tab-content title="Result"
+          :before-change="() => validateStep('wizardResult')"
           icon="ti-check">
           <wizard-result                 
-            v-bind:power-shell-script = "finalModel"
-            ref="wizardResult" >
+            v-bind:power-shell-script = "finalModel"            
+            @on-validate="validatedLastStep"
+            ref="wizardResult">
           </wizard-result>
         </tab-content>
 
@@ -63,10 +65,10 @@
 
           <!--last button -->
           <wizard-button 
-            v-else 
-            @click.native="alert('Done')" 
+            v-else
+            @click.native="restart()"
             class="wizard-footer-right finish-button" 
-            :style="props.fillButtonStyle">Done
+            :style="props.fillButtonStyle">Restart
           </wizard-button>
         </div>
       </template>
@@ -105,7 +107,8 @@ export default {
       loading: false,
       registeredPowerShellScripts_NamesDescriptionsAndParameters: {},
       finalModel: {},
-      preparedScript: ""
+      preparedScript: "",
+      hasReturnedResultFromFinalPowerShellScript: false
     };
   },
   created () {
@@ -150,13 +153,24 @@ export default {
         this.$refs.wizardResult.invokeServersidePowerShellScript(this.$data.CONSTANTS.BASE_URL_WEBSERVICE_API + 'InvokePowerShellScript');
       }
     },
-    onComplete: function(){
+    validatedLastStep(isValid) {
+      this.hasReturnedResultFromFinalPowerShellScript = isValid;
+      console.log('PowerShell invokation completed.');
+    },
+    restart: function(){
+      if(this.hasReturnedResultFromFinalPowerShellScript) {
+        //this.$refs.wizard.changeTab(0,3)
+        this.reset();
+        this.$refs.wizard.reset();
+      }
     },
     reset: function() {
       this.setLoadingState(false);
       this.registeredPowerShellScripts_NamesDescriptionsAndParameters = {};
       this.finalModel = {};
 
+      this.preparedScript = "";
+      this.hasReturnedResultFromFinalPowerShellScript = false;
       this.fetchData();
     },
     setLoadingState: function (loading, error) {

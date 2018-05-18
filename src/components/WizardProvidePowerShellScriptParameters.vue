@@ -20,7 +20,7 @@
 
     <section class="container row terminal">
       <p>PowerShell<br/>
-        PS [SERVER]:\PowerShell>{{scriptToRunWithParameters}}<span class="blinking-cursor">_</span>
+        &gt; PS [SERVER]:\PowerShell&gt; {{scriptToRunWithParameters}}<span class="blinking-cursor">_</span>
       </p>
     </section>
 
@@ -52,11 +52,11 @@ export default {
   computed: {
     scriptToRunWithParameters: function() {
       if (this.selectedPowerShellScriptName !== '') {
-        let powerShellScriptFile = this.powerShellScript.Name + ".ps1";
+        let powerShellScriptFile = this.powerShellScript.FileNameWithoutPath;
         let currentParametersSpaceSeparated = this.parameterValues.map(
-          p => (p.UserProvidedValue ? " -" + p.Name + " " + p.UserProvidedValue : "")
+          p => (p.UserProvidedValue ? " -" + p.Name + " " + "'" + p.UserProvidedValue + "'": "")
         ).join('');
-        let preparedScript = (powerShellScriptFile + currentParametersSpaceSeparated).trim();
+        let preparedScript = ("\"" + "[SERVER]:\\..\\..\\" + powerShellScriptFile + "\"" + currentParametersSpaceSeparated).trim();
         
         return preparedScript;
       }

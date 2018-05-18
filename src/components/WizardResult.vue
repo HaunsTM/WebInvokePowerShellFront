@@ -2,10 +2,10 @@
   <article class="container column">
     
     <section class="container row terminal">
-      <p>PowerShell<br/>
-        PS [SERVER]:\PowerShell>{{powerShellScript.VisualScriptToRunWithParameters}}<span v-if="loading" class="blinking-cursor">_</span>
-        <span v-if="powerShellOutput!==''" class="powershell-output" ><br />{{powerShellOutput}}</span>
-        <span v-if="powerShellError!==''" class="powershell-error"><br />{{powerShellError}}</span>
+      <p>PowerShell (simulated output)<br/>
+        &gt; PS [SERVER]:\PowerShell&gt; {{powerShellScript.VisualScriptToRunWithParameters}}<span v-if="loading" class="blinking-cursor">_</span>
+        <span v-if="powerShellOutput!==''" class="powershell-output" ><br />&gt;<br />&gt; {{powerShellOutput}}</span>
+        <span v-if="powerShellError!==''" class="powershell-error"><br />&gt;<br />&gt; {{powerShellError}}</span>
       </p>
     </section>
   </article>
@@ -28,6 +28,12 @@ export default {
     };
   },
   methods: {
+    validate: function() {
+      let isValid = !this.loading && (this.powerShellOutput === "" || this.powerShellError === "");
+      this.$emit('on-validate', isValid);
+      return isValid;
+    },
+    
     resetMemberVariables: function(){
       this.loading = false;
       this.powerShellError = "";
@@ -40,7 +46,7 @@ export default {
       that.setLoadingState(true);
       const payload = {
         Name: that.powerShellScript.Name,
-        Parameters: this.parameterValues
+        Parameters: that.parameterValues
       };
 
       var timeOut = new Promise(function(resolve, reject) {
@@ -49,7 +55,7 @@ export default {
       });
 
       const promises = [
-          axios.post(webServiceEndpoint, this.powerShellScript),
+          axios.post(webServiceEndpoint, that.powerShellScript),
           timeOut
       ];
 
@@ -58,6 +64,7 @@ export default {
         that.setLoadingState(false);
         that.powerShellOutput = response[0].data.Output;
         that.powerShellError = response[0].data.Errors;
+        that.validate();
       })
       .catch((fatalError) => {
         that.setLoadingState(false, fatalError);
