@@ -44,7 +44,7 @@
                 </md-card-header>
 
                 <md-card-content class="fatal-error">
-                  {{loadingError.stack}}
+                  {{loadingError}}
                   <br/>
                   <br/>
                   <i>(That probably means that the server connection has been lost or that the server is down. Please try later...)</i>
@@ -80,7 +80,7 @@ export default {
       showNavigation: false,
       showSidepanel: false,
       loading: false,
-      loadingError: null
+      loadingError: ""
     }
   },
   created(){
@@ -89,7 +89,7 @@ export default {
   methods: {
     setLoadingState(data) {
       this.loading = data.isLoading;
-      this.loadingError=data.error;
+      this.loadingError=JSON.stringify(data.error);
     }
   }  
 }
