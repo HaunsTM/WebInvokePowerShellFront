@@ -20,7 +20,8 @@
           </wizard-select-power-shell-script>
         </tab-content>
 
-        <tab-content title="Provide parameters and run"
+        <tab-content 
+          title="Provide parameters and run"
           :before-change="() => validateStep('wizardProvidePowerShellScriptParameters')"
           icon="ti-settings">
 
@@ -35,7 +36,7 @@
           :before-change="() => validateStep('wizardResult')"
           icon="ti-check">
           <wizard-result                 
-            v-bind:power-shell-script = "finalModel"            
+            v-bind:power-shell-script = "finalModel"
             @on-validate="validatedLastStep"
             ref="wizardResult">
           </wizard-result>
@@ -55,7 +56,7 @@
 
         <div class="wizard-footer-right">
 
-          <!--back button -->
+          <!--proceed button -->
           <wizard-button 
             v-if="!props.isLastStep" 
             @click.native="props.nextTab()" 
@@ -63,9 +64,10 @@
               {{props.activeTabIndex == 1 ? 'Run' : 'Next'}}
           </wizard-button>
 
-          <!--last button -->
+          <!--restart button -->
           <wizard-button 
-            v-else
+            v-else      
+            v-show="hasReturnedResultFromFinalPowerShellScript"
             @click.native="restart()"
             class="wizard-footer-right finish-button" 
             :style="props.fillButtonStyle">Restart
@@ -114,7 +116,7 @@ export default {
   created () {
     // fetch the data when the view is created and the data is
     // already being observed
-    this.fetchData()
+    this.fetchData();
   },
   methods: {
     fetchData () {      
@@ -159,7 +161,6 @@ export default {
     },
     restart: function(){
       if(this.hasReturnedResultFromFinalPowerShellScript) {
-        //this.$refs.wizard.changeTab(0,3)
         this.reset();
         this.$refs.wizard.reset();
       }

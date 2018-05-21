@@ -40,7 +40,7 @@ export default {
     validate() {
       let isValid = true;
       for (let value of this.parameterValues) {
-        if (value === "") {
+        if (!value.UserProvidedValue) {
           isValid = false;
           break;
         }

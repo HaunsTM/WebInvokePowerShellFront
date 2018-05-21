@@ -30,7 +30,6 @@
           <div class="md-list-item-text">
             <span><md-radio name="registered" v-model="selectedPowerShellScriptName" v-bind:value="registeredPowerShellScript.Name" >{{registeredPowerShellScript.Name}}</md-radio></span>
             <small>{{registeredPowerShellScript.Description}}</small>
-          <md-divider></md-divider>
           </div>
         </md-list-item>
 
