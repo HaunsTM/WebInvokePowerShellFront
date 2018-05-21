@@ -55,13 +55,12 @@
         </div>
 
         <div class="wizard-footer-right">
-
           <!--proceed button -->
           <wizard-button 
             v-if="!props.isLastStep" 
             @click.native="props.nextTab()" 
             class="wizard-footer-right" :style="props.fillButtonStyle">
-              {{props.activeTabIndex == 1 ? 'Run' : 'Next'}}
+              {{props.activeTabIndex === 1 ? 'Run' : 'Next'}}
           </wizard-button>
 
           <!--restart button -->

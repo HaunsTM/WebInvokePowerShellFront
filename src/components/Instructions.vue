@@ -2,7 +2,8 @@
 	<article>
 		<h2>Welcome to Tieto PowerShell tool </h2>
 		<p>This tool will help you to run prepared sets of PowerShell commands. Each set has different responsibilities.</p>
-		<p>Every script has its own instruction.</p>
+		<p>WebInvokePowerShell is a web application which guides users to provide a powershell script file with arguments. When it has collected all data, the script is run.</p>
+		<p>This SPA is just a part of an eco-system. There are separate backend and frontend. Backend is a C# WCF-application running on an IIS-instance, front is a SPA made with VueJS (running on another IIS-instance,). Backend is responsible for the main powershell script performance.</p>
 		
 		<section class="flex-container">
 			<md-button class="md-icon-button md-primary">
