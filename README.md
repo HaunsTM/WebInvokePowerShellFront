@@ -63,7 +63,7 @@ Since we are using a routing SPA, and are planning to deploy the application to 
 <fieldset>
   <legend>File location</legend>
   <figure>
-        <img src="./documentation/fileLocationWebConfig.png" alt=""/>
+        <img src="./documentation/fileLocationWebConfig.png" alt=""/><br />
     <figcaption><code>web.config</code> in root</figcaption>
   </figure>
 </fieldset>
