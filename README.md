@@ -37,6 +37,45 @@
 <p>There are many tutorials on how to develop with VueJS but a good start is <a href="https://vuejs.org/v2/guide/index.html">https://vuejs.org/v2/guide/index.html</a>.</p>
 
 <h2>Production</h2>
+Since we are using a routing SPA, and are planning to deploy the application to a IIS webserver, there are a few things that has to be taken care of:
+<ol>
+    <li>We are using the history function of our <code>vue-router</code>. Because of that we need to do some additional setup in IIS before we can use it:
+    <ol>
+    <li>Install IIS UrlRewrite</li>
+    <li>Create a <code>web.config</code> file in the root directory of the site with the following (<a href="https://router.vuejs.org/en/essentials/history-mode.html">https://router.vuejs.org/en/essentials/history-mode.html</a>):
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;configuration&gt;
+  &lt;system.webServer&gt;
+    &lt;rewrite&gt;
+      &lt;rules&gt;
+        &lt;rule name="Handle History Mode and custom 404/500" stopProcessing="true"&gt;
+          &lt;match url="(.*)" /&gt;
+          &lt;conditions logicalGrouping="MatchAll"&gt;
+            &lt;add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" /&gt;
+            &lt;add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" /&gt;
+          &lt;/conditions&gt;
+          &lt;action type="Rewrite" url="/" /&gt;
+        &lt;/rule&gt;
+      &lt;/rules&gt;
+    &lt;/rewrite&gt;
+  &lt;/system.webServer&gt;
+&lt;/configuration&gt;</pre>
+<fieldset>
+  <legend>File location</legend>
+  <figure>
+        <img src="./documentation/fileLocationWebConfig.png" alt=""/>
+    <figcaption><code>web.config</code> in root</figcaption>
+  </figure>
+</fieldset>
+    </li>
+    </ol>
+    </li>
+    <li>Build the application using <code>npm run build</code> <i>(this step is necessary for every new verion we're planning to release)</i></li>
+    <li>In IIS, create new website pointing to the <code>/dist</code> folder of the app.</li>
+    <li>In IIS, go to <b>Application Pools</b> > the new website > <b>Advanced Settings</b> > <b>.NET CLR Version</b>, select <code>No Managed Code</code></li>
+    <li>Restart IIS.</li>
+    <li>The new SPA should work now.</li>
+</ol>
 
 
 <h2>Running the application</h2>
