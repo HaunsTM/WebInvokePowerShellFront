@@ -81,7 +81,7 @@ Since we are using a routing SPA, and are planning to deploy the application to 
 <ol>
     <li>Add the script file to backend application script folder.<br /> <code>X:\[PATH_TO_BACKEND]\WebInvokePowerShell\PowerShellService\PowerShellScripts\ScriptFile.ps1</code>
     </li>
-    <li>Register the new script file in  <code>PowerShellScriptFilesDefinitions.json</code> in order to make it available for the stakeholder.</li>
+    <li>Register the new script file in  <code>PowerShellScriptFilesDefinitions.json</code> in order to make it available to the stakeholder.</li>
 </ol>
 <fieldset>
   <legend>File location</legend>
