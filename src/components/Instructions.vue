@@ -6,9 +6,7 @@
 		<p>This SPA is just a part of an eco-system. There are separate backend and frontend. Backend is a C# WCF-application running on an IIS-instance, front is a SPA made with VueJS (running on another IIS-instance,). Backend is responsible for the main powershell script performance.</p>
 		
 		<section class="flex-container">
-			<md-button class="md-icon-button md-primary">
-      	<span class="md-list-item-text"><router-link :to="{name: 'Wizard'}"><md-icon>arrow_forward</md-icon></router-link></span>	     
-			</md-button>
+			<router-link :to="{name: 'Wizard'}"><md-icon>arrow_forward</md-icon></router-link>  
 		</section>
 
 	</article>
