@@ -41,7 +41,7 @@ Since we are using a routing SPA, and are planning to deploy the application to 
 <ol>
     <li>We are using the history function of our <code>vue-router</code>. Because of that we need to do some additional setup in IIS before we can use it:
     <ol>
-    <li>Install IIS UrlRewrite</li>
+    <li>Install IIS UrlRewrite (<a href="https://www.iis.net/downloads/microsoft/url-rewrite">https://www.iis.net/downloads/microsoft/url-rewrite</a>)</li>
     <li>Create a <code>web.config</code> file in the root directory of the site with the following (<a href="https://router.vuejs.org/en/essentials/history-mode.html">https://router.vuejs.org/en/essentials/history-mode.html</a>):
 <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;configuration&gt;
