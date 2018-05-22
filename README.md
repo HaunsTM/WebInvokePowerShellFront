@@ -12,17 +12,9 @@
     <li>We also need Node JS (can be downloaded here <a href="https://nodejs.org/en/">https://nodejs.org/en/</a>, event though it is not necessary to do so, I higly recommend you to install it!). Node is a JavaScript runtime engine.</li>
     <li>WebInvokePowerShell-frontend is developed with javascript/ES6, CSS3 and HTML5 assembled in VueJS v2. Installation instructions for VueJS v2 can be found here, <a href="https://vuejs.org/v2/guide/installation.html">https://vuejs.org/v2/guide/installation.html</a>, but in short, run the following command from a powershell terminal:
 <code>npm install vue</code> to install Vue.</li>
-    <li>When you are up and running (have installed the artifacts mentioned above and fetched this repo from its source code repo), run the following command in order to resolve dependencies:<pre>PS X:\[PATH_TO]\WebInvokePowerShellFront> <code><b>npm</b> install</code></pre></li>
+    <li>When you are up and running (have installed the artifacts mentioned above and fetched this repo from its source code repo), run the following command in order to resolve dependencies:<pre>PS X:\[PATH_TO]\WebInvokePowerShellFront&gt; <code><b>npm</b> install</code></pre></li>
 </ul>
-<p>Now you should be able to start the dev server:<pre>PS X:\[PATH_TO]\WebInvokePowerShellFront> <code><b>npm</b> run dev</code></pre></p>
-
-<fieldset>
-  <legend>Visual Studio Code-integrated powershell terminal</legend>
-  <figure>
-        <img src="./documentation/runDev.png" alt=""/>
-    <figcaption><code><b>npm</b> run dev</code></figcaption>
-  </figure>
-</fieldset>
+<p>Now you should be able to start the dev server:<pre>PS X:\[PATH_TO]\WebInvokePowerShellFront&gt; <code><b>npm</b> run dev</code></pre></p>
 
 <fieldset>
   <legend>Visual Studio Code-integrated powershell terminal</legend>
@@ -36,7 +28,7 @@
 <img src="./documentation/runDev.png" alt=""/>
 <p>There are many tutorials on how to develop with VueJS but a good start is <a href="https://vuejs.org/v2/guide/index.html">https://vuejs.org/v2/guide/index.html</a>.</p>
 
-<h2>Production</h2>
+<h2>Setup for Production</h2>
 Since we are using a routing SPA, and are planning to deploy the application to a IIS webserver, there are a few things that has to be taken care of:
 <ol>
     <li>We are using the history function of our <code>vue-router</code>. Because of that we need to do some additional setup in IIS before we can use it:
@@ -76,8 +68,6 @@ Since we are using a routing SPA, and are planning to deploy the application to 
     <li>Restart IIS.</li>
     <li>The new SPA should work now.</li>
 </ol>
-
-
 <h2>Running the application</h2>
 <ol>
     <li>Go to URL: </li>
@@ -86,6 +76,17 @@ Since we are using a routing SPA, and are planning to deploy the application to 
     <li><h3>Provide parameters:</h3><img src="./documentation/providedParameters.png" alt=""/><br />Click "Run"</li>
     <li><h3>After a while, you will have output:</h3><img src="./documentation/result.png" alt=""/></li>
 </ol>
-
-
-
+<h2>Where are the PowerShell script files?</h2>
+<p>Every script file (example <code>SomePowerShellScriptFile.ps1</code>) belongs to and will be executed by the backend application. There are two steps that need to be taken in order to register a new script file with the application:</p>
+<ol>
+    <li>Add the script file to backend application script folder.<br /> <code>X:\[PATH_TO_BACKEND]\WebInvokePowerShell\PowerShellService\PowerShellScripts\ScriptFile.ps1</code>
+    </li>
+    <li>Register the new script file in  <code>PowerShellScriptFilesDefinitions.json</code> in order to make it available for the stakeholder.</li>
+</ol>
+<fieldset>
+  <legend>File location</legend>
+  <figure>
+        <img src="./documentation/loactionForPowerShellScripts.png" alt=""/><br />
+    <figcaption><code>PowerShellScriptFilesDefinitions.json</code> in <code>X:\[PATH_TO_BACKEND]\WebInvokePowerShell\PowerShellService\PowerShellScripts\</code></figcaption>
+  </figure>
+</fieldset>
